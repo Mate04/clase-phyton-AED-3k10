@@ -1,6 +1,7 @@
 separador = "="*20
 #contamos las vueltas dadas
 SumaDeNumeroTotales = 0
+cantDeVueltas = 0
 #declaramos la bandera Impar para tomar el mayor
 banderaImpar = False
 #declaramos las varibles para los divisibles para 3
@@ -20,8 +21,20 @@ while sucecionDeNumeros != 0:
         elif mayNumeroImpar < sucecionDeNumeros:
             mayNumeroImpar = sucecionDeNumeros
     SumaDeNumeroTotales += sucecionDeNumeros
-
+    if sucecionDeNumeros != 0:
+        cantDeVueltas += 1
 print(separador)
 #sacar el porcentaje de numeros divisibles por 3
-porcentajeDivisible3:float = (sumaDivisible3/SumaDeNumeroTotales)*100
-print('el porcentaje de numeros que son divisibles por 3 es: {:.2f}'.format(porcentajeDivisible3))
+if cantDivisible3 > 0:
+    porcentajeDivisible3:float = (cantDivisible3/cantDeVueltas)*100
+    print('el porcentaje de numeros que son divisibles por 3 a comparacion de numeros totales es: {:.2f}'.format(porcentajeDivisible3))
+    print(separador)
+else:
+    print('no hubo numeros divisibles por 3 en la lista de carga')
+    print(separador)
+if banderaImpar:
+    print('el numero mas grande  impar es: ', mayNumeroImpar)
+    print(separador)
+else:
+    print('no hubo numeros impares en la lista de carga')
+    print(separador)
