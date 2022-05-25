@@ -38,3 +38,4 @@ if banderaImpar:
 else:
     print('no hubo numeros impares en la lista de carga')
     print(separador)
+print('la suma de los numeros es: ', SumaDeNumeroTotales)
