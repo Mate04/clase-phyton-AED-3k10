@@ -1,8 +1,10 @@
 #inicio del programa
 import random
 import os
+import time
 #Para installar esta libreria, abra su terminal e escriba el siguiente comando: pip install pyfiglet
 from pyfiglet import figlet_format
+
 def main():
     #colores
     NEGRO = '\033[30m'
@@ -19,38 +21,67 @@ def main():
     separador_ganador_jugador = VERDE+"*"*60+BLANCO
     separador_ganador_croupier = ROJO+"*"*60+BLANCO
     separador_empate = AZUL+"*"*60+BLANCO
+    separadorNormal = '-' * 60
+
+    #funciones para limpiar pantalla
+    def borrador_pantalla ():
+        print(input(AZUL+'\nPresione enter para continuar...')+BLANCO)
+        os.system ("cls")
+    def borrador_sinpreg():
+        os.system ("cls")
 
     #DATOS
     bandera=True
     winNatural=0
     winCrupier=0
     winjugador=0
+
+    #vueltas dadas
+    vueltasDados = 0    
+
+    #declaramos varibales para la partida seguida
+    seguidos = False
+    seguidillaContador = 0
+    banderaSeguidilla = True
+
     palos = ("Treboles","Diamantes","Corazones","Picas")
     valores = ["As",2,3,4,5,6,7,8,9,10,"J","Q","K"]
     figuras = ["J", "Q", "K"]
-
+    
+    #Titulo
     print(separadorPiola)
     print(figlet_format('|| BlackJack ||', font='big'))
     print(separadorPiola)
+    print(AZUL+"\nSe borrara todo luego de continuar."+BLANCO)
+    borrador_pantalla()
+
+    #nombre Jugador
+    jugador=input('Ingrese su nombre: ')
+    borrador_sinpreg()
+    
     #Declaramos la variable pozo y cumplimos las condiciones
-    pozo = int(input('\nCuanto dinero quiere destinar al pozo: '))
+    pozo = int(input('Cuanto dinero quiere destinar al pozo: '))
+    borrador_sinpreg()
     while pozo > 100000 or pozo < 1:
-        print(ROJO+'El dinero que ingreso debe ser menor a 100000 y mayor a 1 porfavor ingrese una cantidad valida')
-        pozo = int(input(BLANCO+'Cuanto dinero quiere destinar al pozo: \n'+BLANCO))
+        print(ROJO+'El dinero que ingreso debe ser menor a 100000 y mayor a 1, porfavor ingrese una cantidad valida\n')
+        pozo = int(input(BLANCO+'Cuanto dinero quiere destinar al pozo: '+BLANCO))
+        borrador_sinpreg
+    pdrSuma = pozo
+    PDRcontador = 1
+    
     #declaramos funciones
     def apostar(apuesta:int):   #AQUI DEFINIMOS EL FUNCIONAMIENTO DE LAS APUESTAS
         while apuesta > pozo or apuesta < 1:
-            print(ROJO+'No puede apostar esa cantidad, el pozo actual es de: '+str(pozo))
+            print(ROJO+'No puede apostar esa cantidad.\tel pozo actual es de: '+str(pozo))
             apuesta = int(input(BLANCO+'Cuanto dinero quiere apostar: '))
         return apuesta
-
-    def menu():
-        print("\n"+CYAN+separador+"\n")      #AQUI DEFINIMOS EL FUNCIONAMIENTO DEL MENU
-        print ("-"*(30-9), "Menu de Opciones", "-"*(30-9), "\n")
-        print(f"\nTu dinero actual del pozo es de {pozo}\n")
-        print('Opcion 1: APOSTAR \nOpcion 2: JUGAR UNA MANO \nOpcion 3: SALIR')
-        op = int(input('Elija una opcion (1/2/3): ')) 
-        print("\n"+separador+BLANCO+"\n")
+    
+    def menu():     #AQUI DEFINIMOS EL FUNCIONAMIENTO DEL MENU
+        print (CYAN+"-"*(30-9), "Menu de Opciones", "-"*(30-9), "\n")
+        print(f"Tu dinero actual del pozo es de {pozo}\n")
+        print('Opcion 1: RECARGAR \nOpcion 2: JUGAR UNA MANO \nOpcion 3: SALIR')
+        op = int(input('\nElija una opcion (1/2/3): ')) 
+        print("\n"+separador+BLANCO)
         return op
 
     def cambiar_valor(carta):   #AQUI DEFINIMOS EL FUNCIONAMIENTO DE LOS VALORES DE AS
@@ -100,39 +131,64 @@ def main():
                 print(separador_ganador_croupier)
                 print(ROJO+f"Has empatado contra el Croupier, pero lo mismo pierdes tu apuesta de {apuesta}"+BLANCO)
                 return False
+        elif sumaJugador <= 21 and sumaCrupier > 21:
+            print(separador_ganador_jugador)
+            print(VERDE+f"Has ganado ahora se te sumaran tu {apuesta}"+BLANCO)
+            return True
+        elif sumaJugador > 21 and sumaCrupier <= 21:
+            print(separador_ganador_croupier)
+            print(ROJO+f"Has perdido contra el Croupier, se te restaran tu {apuesta} "+BLANCO)
+            return False
         else:
-            print(ROJO+f"Has perdido contra el Croupier, pero lo mismo pierdes tu apuesta de {apuesta}"+BLANCO)
+            print(separador_ganador_croupier)
+            print(ROJO+f"Has perdido contra el Croupier, se te restaran tu {apuesta} "+BLANCO)
             return False
 
     op = True
+    
     while op != 3:
-        os.system ("cls")
+        if seguidos:
+            seguidillaContador += 1
+            print(AMARILLO+f"vas {seguidillaContador} partidas ganadas seguidas"+BLANCO)
+        else:
+            seguidillaContador = 0
+        if banderaSeguidilla or seguidillaContador > mayRacha:
+            mayRacha = seguidillaContador
+            banderaSeguidilla = False
+        borrador_sinpreg()
         if bandera or mayPozo < pozo:
             mayPozo = pozo
             bandera = False
         op = menu()
-        os.system ("cls")
+        borrador_sinpreg()
+        #menu options
         if op == 1:
-            recargaAlPozo = int(input('\nCuanto dinero quiere recargar: '))
+            recargaAlPozo = int(input('Cuanto dinero quiere recargar: '))
             while recargaAlPozo > 100000 or recargaAlPozo < 1:
-                print(ROJO+'\nEl dinero que pusiste es negativo o mayor a 100000, por favor ingrese un valor menor\n')
+                print(ROJO+'El dinero que pusiste es negativo o mayor a 100000, por favor ingrese un valor menor\n')
                 recargaAlPozo = int(input(BLANCO+'Cuanto dinero quiere recargar?: '))
+            pdrSuma += recargaAlPozo     #promedio de recarga al pozo
+            PDRcontador +=1
             pozo += recargaAlPozo
-            os.system ("cls")
+            borrador_sinpreg()
         elif op == 2:
             print("-"*10+" Juego "+"-"*10)
             apuesta = apostar(int(input('\nCuanto dinero quiere apostar: ')))
-            print(input("\nPresione Enter para Comenzar..."))
-            os.system ("cls")
+            borrador_pantalla ()
             print('Tus cartas son:\n')
+            time.sleep(1)
             c1_jugador = generar_carta()
+            time.sleep(0.5)
             c2_jugador = generar_carta()
             sumaJugador = suma_cartas(c1_jugador,c2_jugador)
             #Suma Jugador
-            print(f"\nLa Suma de tus Cartas es: {sumaJugador} \n")
+            time.sleep(0.5)
+            print(f"\nLa Suma de {jugador} Cartas es: {sumaJugador} \n")
             print(separador+"\n")
             #Parte Croupier
+            time.sleep(1.5)
             print("La Primera Carta del Crupier es:\n")
+            time.sleep(0.5)
             c1_crupier = generar_carta()
             suma_Crupier = c1_crupier
             #Pregunta para seguir generando cartas Jugador
@@ -140,63 +196,81 @@ def main():
             banderaNatural = True
             contadorDeCartasDeJugador= 2
             contadorDeCrupier= 1
-            print("\n"+separador+"\n")
-            seguir = input(f"Desea pedir otra carta? (Presione s = (si)/ n = (no) ): ")
+            borrador_pantalla ()
+            print(f"La Suma de {jugador} Cartas es: {sumaJugador} \n")
+            time.sleep(0.5)
+            seguir = input(f"{jugador} Desea pedir otra carta? (Presione s = (si)/ n = (no) ): ")
             #Ciclo donde se genera una nueva carta al jugador
             while seguir != "n":
+                time.sleep(1)
+                print ("")
                 carta_jugador = generar_carta()
                 sumaJugador = suma_cartas(sumaJugador,carta_jugador)
                 contadorDeCartasDeJugador += 1
                 #?se restas la suma cuando salga el as de 11 a 1
                 if c1_jugador == 11 and sumaJugador>21:
                     sumaJugador -= 10
-                    print('El as de la primera mano vale ahora 1')
+                    time.sleep(1)
+                    print('El As de la primera mano vale ahora 1')
                 if c2_jugador==11 and sumaJugador >21:
                     sumaJugador -=10
-                    print('El as de la segunada mano vale ahora 1')
+                    time.sleep(1)
+                    print('El As de la segunada mano vale ahora 1')
                 if sumaJugador == 21:
-                    print("Sacaste 21\n")
+                    print(f"{jugador} Sacaste 21\n")
                     break
                 elif sumaJugador < 21:
-                    print(f"La suma total de tus cartas es: {sumaJugador}\n")
+                    time.sleep(0.5)
+                    print(f"\n{jugador} La suma total de tus cartas es: {sumaJugador}\n")
                     seguir = input("Desea pedir otra carta (presione s=(si)/n=(no)): ")
                 else:
-                    print(f"Te pasaste de 21 gil, tu suma es {sumaJugador}\n")
+                    print(f"\nTe pasaste de 21\n\ntu suma es {sumaJugador}")
                     break
-            print(separador+"\n")
+            borrador_pantalla()
             #parte del crupier para ver si toma o no cartas
             while suma_Crupier <= 16:
+                print("El Croupier Decide Tomar Otra Carta...\n")
+                time.sleep(1)
                 carta_crupier_generica = generar_carta()
-                print("El Croupier Pidio otra Carta\n")
                 suma_Crupier = suma_cartas(suma_Crupier,carta_crupier_generica)
                 if c1_crupier == 11 and suma_Crupier > 21:
                     suma_Crupier -= 10
 
                 contadorDeCrupier += 1
-                print(f"La suma total de las cartas del Crupier es: {suma_Crupier}\n")
+                time.sleep(1)
+                print(f"\nLa suma total de las cartas del Crupier es: {suma_Crupier}\n")
+                
                 print('-'*60)
 
             print(f"\nEl crupier se planta con {suma_Crupier} puntos\n")
+            borrador_pantalla ()
             primeraPartida = verificarGanador(sumaJugador, contadorDeCartasDeJugador, suma_Crupier, contadorDeCrupier, apuesta)
             if primeraPartida:
+                seguidos = True
                 pozo += apuesta
-                print(VERDE+f"Tu pozo actual es de: {pozo}")
+                print(VERDE+f"{jugador} tu pozo actual es de: {pozo}")
                 winjugador += 1
                 if contadorDeCartasDeJugador == 2 and sumaJugador == 21:
                     winNatural += 1
-                    print(VERDE+'El jugador gana con BlackJack Natural'+BLANCO)
+                    print(VERDE+f'{jugador} Gana con BlackJack Natural'+BLANCO)
                 print(separador_ganador_jugador)
             else:
+                seguidos = False
                 pozo -= apuesta
-                print(ROJO+f"Tu pozo actual es de: {pozo}")
+                print(ROJO+f"{jugador} tu pozo actual es de: {pozo}")
                 winCrupier += 1
                 if contadorDeCrupier == 2 and suma_Crupier == 21:
                     winNatural += 1
                     print(ROJO+'El Croupier gana con BlackJack Natural'+BLANCO)
                     #Condiciones De ganadores
                 print(separador_ganador_croupier)
+            borrador_pantalla()
+        vueltasDados += 1    
     print(f'cantidad de veces que gano el crupier {winCrupier}')
-    print('cantidad de veces que gano el jugador',winjugador)
-    print('cantidad de veces que se gano una mano por blackjack natural',winNatural)
-    print('el valor maximo que alcanzo el pozo fue :',mayPozo)
+    print(f'cantidad de veces que gano el jugador {jugador} {winjugador}')
+    print(f'cantidad de veces que se gano una mano por blackjack natural fue por {winNatural}')
+    print(f'el valor maximo que alcanzo el pozo fue : {mayPozo}')
+    print(f'la mayor racha seguida fue de {mayRacha}')
+    print(f'el mondo el promedio al pozo fue de {pdrSuma//PDRcontador}')
+    borrador_pantalla()
 main()
