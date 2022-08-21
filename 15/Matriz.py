@@ -1,5 +1,4 @@
 promedio = lambda promedio, cant: promedio / cant
-
 n = int(input('cantidad de lineas '))
 m = int(input('cantidad de paradas '))
 arrayCombiando =[]
@@ -37,7 +36,6 @@ for i in punto3:
         posicion = vuelta3
         bandera = False
     vuelta3+=1
-
 print(f'el promedio de la parada de pasajeros fue de {promedio(punto2,vuelta2)}')
 print(f'la linea {posicion} tuve la menor cantidad de pasajeros')
 print(f'la empresa recaudo {punto4} pesos')

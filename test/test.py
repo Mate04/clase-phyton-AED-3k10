@@ -1,11 +1,16 @@
-lista = [[1,2,3,4],[4,5,6],[7,9,9]]
-vuelta = vuelta2= c = 0
-for i in range(len(lista)):
-    vuelta2 = 0
-    for j in lista[i]:
-        if j == lista[i][2] and vuelta2 == 2:
-            c += lista[i][2]
-            vuelta += 1
-        vuelta2 += 1
-print(c/vuelta)
-print(8.5)
+class Nombre:
+    def __init__(self, nombre):
+        self.nombre = nombre
+    def __repr__(self):
+        return self.nombre
+    def getData(self):
+        return self.nombre
+def main():
+    arrayqsy = []
+    for i in range(2):
+        nombre = input('nombre: ')
+        print(Nombre(nombre).getData())
+        arrayqsy.append(Nombre(nombre).getData())
+    print(arrayqsy)
+if __name__ == '__main__':
+    main()
