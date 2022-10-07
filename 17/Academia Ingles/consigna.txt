@@ -1,0 +1,13 @@
+Una academia de inglés para niños de escolaridad primaria y nivel inicial, desea un programa para procesar los datos de sus alumnos. Por cada alumno se tienen los siguientes datos: DNI del alumno, el nombre del alumno, el apellido del alumno, DNI del Tutor (adulto responsable del niño), el importe de la cuota y el nivel en el que cursa el niño (un valor entre 0 y 12 incluidos, de la forma 0: Inicial, 1: Primer Junior, 2: Primer Younger, etc.). Se desea almacenar la información referida a los n alumnos en un arreglo de registros de tipo Alumno (definir el tipo Alumno y cargar n por teclado).
+
+Se pide desarrollar un programa en Python controlado por un menú de opciones, que permita gestionar las siguientes tareas:
+
+1- Cargar el arreglo pedido con los datos de los n alumnos. Valide que el número de nivel sea un valor entre 0 y 12 (ambos incluidos). Puede hacer la carga en forma manual, o puede generar los datos en forma automática (con valores aleatorios) o puede disponer de ambas técnicas si lo desea. Pero al menos una debe programar.
+
+2- Mostrar todos los datos de todos los alumnos, en un listado ordenado de menor a mayor según el apellido del alumno.
+
+3- Usando el arreglo creado en el punto 1, determine la cantidad de alumnos que cursan en cada nivel (o sea, 13 contadores). Muestre sólo los resultados diferentes de 0.
+
+4- Determinar el monto total que debe abonar el Tutor con número de DNI igual a x, siendo x un valor que se carga por teclado (sumar los importes de las cuotas de los niños que el Tutor tiene a su cargo).  
+
+5- Determinar si existe un alumno con un apellido que sea igual a x (siendo x un valor que se carga por teclado). Si existe, modificar el importe de su cuota con un descuento del 10 % y mostrar los datos actualizados del alumno. Si no existe, informar con un mensaje. Si existe más de un registro que coincida con esos parámetros de búsqueda, debe mostrar sólo el primero que encuentre.
