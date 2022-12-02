@@ -1,0 +1,19 @@
+[
+    {
+        "nombre":"Mateo",
+        "edad":19,
+        "categoria": "el mejor dea"
+    },
+    {
+        "nombre":"Martina",
+        "edad":20
+    },
+    {
+        "nombre":"tomi",
+        "edad":19
+    },
+    {
+        "nombre":"Gero",
+        "edad":19
+    }
+]
